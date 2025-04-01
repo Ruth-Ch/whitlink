@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WhitLink</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header id="header">
+    <h1>WhitLink – Connect with Students</h1>
+  </header>
+
+  <form id="student-form">
+    <input type="text" id="name" placeholder="Your Name" required />
+    <input type="text" id="major" placeholder="Your Major" required />
+    <input type="text" id="year" placeholder="Your Year (e.g. Sophomore)" required />
+    <input type="email" id="email" placeholder="Your Email" required />
+
+    <label><input type="checkbox" class="tag" value="First-Gen" /> First-Gen</label>
+    <label><input type="checkbox" class="tag" value="Athlete" /> Athlete</label>
+    <label><input type="checkbox" class="tag" value="International" /> International</label>
+
+    <select id="housing" required>
+      <option value="">Select Housing</option>
+    </select>
+
+    <select id="club" required>
+      <option value="">Select Club/Sport</option>
+    </select>
+
+    <select id="offcampus">
+      <option value="">Off-Campus Study?</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+
+    <select id="internship">
+      <option value="">Internship Grant?</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+
+    <button type="submit">Add My Profile</button>
+  </form>
+
+  <hr />
+
+  <div id="filters">
+    <h3>Filter Students</h3>
+    <div class="filter-row">
+      <input type="text" id="search-bar" placeholder="Search by name, year, or tag..." />
+      <button id="search-button">Search</button>
+    </div>
+
+    <select id="filter-club"><option value="">Filter by Club/Sport</option></select>
+    <select id="filter-housing"><option value="">Filter by Housing</option></select>
+    <select id="filter-year"><option value="">Filter by Year</option></select>
+    <select id="filter-internship">
+      <option value="">Internship Grant?</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+    <select id="filter-offcampus">
+      <option value="">Off-Campus Study?</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+
+    <button id="clear-filters">Reset Filters</button>
+  </div>
+
+  <h2>Browse Students</h2>
+  <div class="carousel-container">
+    <div id="student-list" class="carousel-track"></div>
+    <p id="no-results" class="hidden">😕 No students found matching your search.</p>
+  </div>
+
+  <script type="module" src="firebase-config.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

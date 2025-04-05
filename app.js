@@ -66,7 +66,6 @@ form.addEventListener("submit", async (e) => {
   const offcampus = document.getElementById("offcampus").value;
   const internship = document.getElementById("internship").value;
   const hometown = document.getElementById("hometown").value;
-  const country = document.getElementById("country").value;
   const profilePicInput = document.getElementById("profilePic");
   const selectedTags = Array.from(document.querySelectorAll(".tag:checked")).map(tag => tag.value);
 

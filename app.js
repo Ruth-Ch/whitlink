@@ -57,6 +57,8 @@ populateOptions("filter-housing", housingOptions);
 // Form Submission
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  // Grab form values
   const name = document.getElementById("name").value;
   const major = document.getElementById("major").value;
   const year = document.getElementById("year").value;
@@ -66,37 +68,53 @@ form.addEventListener("submit", async (e) => {
   const offcampus = document.getElementById("offcampus").value;
   const internship = document.getElementById("internship").value;
   const hometown = document.getElementById("hometown").value;
+  const country = document.getElementById("country")?.value || ""; // add this line
   const profilePicInput = document.getElementById("profilePic");
   const selectedTags = Array.from(document.querySelectorAll(".tag:checked")).map(tag => tag.value);
 
+  // Check required fields
+  if (!name || !major || !year || !email) {
+    alert("Please fill in all required fields: Name, Major, Year, and Email.");
+    return;
+  }
+
   let profilePicURL = "";
 
+  const studentData = {
+    name,
+    major,
+    year,
+    email,
+    housing,
+    club,
+    offcampus,
+    internship,
+    hometown,
+    country,
+    profilePicURL,
+    tags: selectedTags
+  };
+
+  // Handle file upload
   if (profilePicInput.files[0]) {
     const reader = new FileReader();
     reader.onloadend = async () => {
-      profilePicURL = reader.result;
+      studentData.profilePicURL = reader.result;
 
-      await addDoc(collection(db, "students"), {
-        name, major, year, email, housing, club,
-        offcampus, internship, hometown, country,
-        profilePicURL, tags: selectedTags
-      });
+      await addDoc(collection(db, "students"), studentData);
 
-      alert("Student profile added!");
+      alert("✅ Student profile added!");
       form.reset();
     };
     reader.readAsDataURL(profilePicInput.files[0]);
   } else {
-    await addDoc(collection(db, "students"), {
-      name, major, year, email, housing, club,
-      offcampus, internship, hometown, country,
-      profilePicURL, tags: selectedTags
-    });
+    await addDoc(collection(db, "students"), studentData);
 
-    alert("Student profile added!");
+    alert("✅ Student profile added!");
     form.reset();
   }
 });
+
 
 let allStudents = [];
 onSnapshot(collection(db, "students"), (snapshot) => {

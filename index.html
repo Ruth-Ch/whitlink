@@ -10,6 +10,7 @@
 
   <header id="header">
     <h1>WhitLink – Connect with Students</h1>
+
   </header>
 
   <form id="student-form">
@@ -17,6 +18,8 @@
     <input type="text" id="major" placeholder="Your Major" required />
     <input type="text" id="year" placeholder="Your Year (e.g. Sophomore)" required />
     <input type="email" id="email" placeholder="Your Email" required />
+    <input type="text" id="hometown" placeholder="Hometown" />
+    <input type="text" id="country" placeholder="Country" />
 
     <label><input type="checkbox" class="tag" value="First-Gen" /> First-Gen</label>
     <label><input type="checkbox" class="tag" value="Athlete" /> Athlete</label>
@@ -42,10 +45,10 @@
       <option value="No">No</option>
     </select>
 
+    <input type="file" id="profilePic" accept="image/*" />
+
     <button type="submit">Add My Profile</button>
   </form>
-
-  <hr />
 
   <div id="filters">
     <h3>Filter Students</h3>
@@ -71,7 +74,7 @@
     <button id="clear-filters">Reset Filters</button>
   </div>
 
-  <h2>Browse Students</h2>
+  <h2 class="browse-title">Browse Students</h2>
   <div class="carousel-container">
     <div id="student-list" class="carousel-track"></div>
     <p id="no-results" class="hidden">😕 No students found matching your search.</p>

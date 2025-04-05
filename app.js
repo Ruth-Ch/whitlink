@@ -1,4 +1,4 @@
-// 🔧 app.js (Updated JavaScript for search, filters, UI fixes)
+// app.js (Updated JavaScript for search, filters, UI fixes)
 
 import { db } from "./firebase-config.js";
 import {
@@ -65,16 +65,37 @@ form.addEventListener("submit", async (e) => {
   const club = document.getElementById("club").value;
   const offcampus = document.getElementById("offcampus").value;
   const internship = document.getElementById("internship").value;
+  const hometown = document.getElementById("hometown").value;
+  const country = document.getElementById("country").value;
+  const profilePicInput = document.getElementById("profilePic");
   const selectedTags = Array.from(document.querySelectorAll(".tag:checked")).map(tag => tag.value);
 
-  try {
+  let profilePicURL = "";
+
+  if (profilePicInput.files[0]) {
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      profilePicURL = reader.result;
+
+      await addDoc(collection(db, "students"), {
+        name, major, year, email, housing, club,
+        offcampus, internship, hometown, country,
+        profilePicURL, tags: selectedTags
+      });
+
+      alert("Student profile added!");
+      form.reset();
+    };
+    reader.readAsDataURL(profilePicInput.files[0]);
+  } else {
     await addDoc(collection(db, "students"), {
-      name, major, year, email, housing, club, offcampus, internship, tags: selectedTags
+      name, major, year, email, housing, club,
+      offcampus, internship, hometown, country,
+      profilePicURL, tags: selectedTags
     });
+
     alert("Student profile added!");
     form.reset();
-  } catch (err) {
-    console.error("Error adding document: ", err);
   }
 });
 
@@ -104,9 +125,12 @@ function renderStudents(students) {
     const div = document.createElement("div");
     div.classList.add("student-card");
     div.innerHTML = `
+      <img src="${student.profilePicURL || 'default-avatar.png'}" alt="Profile Picture" class="profile-pic" />
       <h3>${student.name}</h3>
       <p><strong>Major:</strong> ${student.major}</p>
       <p><strong>Year:</strong> ${student.year}</p>
+      <p><strong>Hometown:</strong> ${student.hometown || '—'}</p>
+      <p><strong>Country:</strong> ${student.country || '—'}</p>
       <p><strong>Housing:</strong> ${student.housing}</p>
       <p><strong>Club/Sport:</strong> ${student.club}</p>
       <p><strong>Off-Campus Study:</strong> ${student.offcampus}</p>
@@ -119,30 +143,28 @@ function renderStudents(students) {
 }
 
 function applyFilters() {
-    let keyword = searchBar.value.trim().toLowerCase();
-    let filtered = [...allStudents];
-  
-    if (keyword) {
-      filtered = filtered.filter(s =>
-        s.name.toLowerCase().includes(keyword) ||
-        s.major?.toLowerCase().includes(keyword) ||
-        s.year?.toLowerCase().includes(keyword) ||
-        s.housing?.toLowerCase().includes(keyword) ||
-        s.club?.toLowerCase().includes(keyword) ||
-        s.tags?.some(tag => tag.toLowerCase().includes(keyword))
-      );
-    }
-  
-    if (filterClub.value) filtered = filtered.filter(s => s.club === filterClub.value);
-    if (filterHousing.value) filtered = filtered.filter(s => s.housing === filterHousing.value);
-    if (filterYear.value) filtered = filtered.filter(s => s.year === filterYear.value);
-    if (filterInternship.value) filtered = filtered.filter(s => s.internship === filterInternship.value);
-    if (filterOffcampus.value) filtered = filtered.filter(s => s.offcampus === filterOffcampus.value);
-  
-    renderStudents(filtered);
-  }
-  
+  let keyword = searchBar.value.trim().toLowerCase();
+  let filtered = [...allStudents];
 
+  if (keyword) {
+    filtered = filtered.filter(s =>
+      s.name.toLowerCase().includes(keyword) ||
+      s.major?.toLowerCase().includes(keyword) ||
+      s.year?.toLowerCase().includes(keyword) ||
+      s.housing?.toLowerCase().includes(keyword) ||
+      s.club?.toLowerCase().includes(keyword) ||
+      s.tags?.some(tag => tag.toLowerCase().includes(keyword))
+    );
+  }
+
+  if (filterClub.value) filtered = filtered.filter(s => s.club === filterClub.value);
+  if (filterHousing.value) filtered = filtered.filter(s => s.housing === filterHousing.value);
+  if (filterYear.value) filtered = filtered.filter(s => s.year === filterYear.value);
+  if (filterInternship.value) filtered = filtered.filter(s => s.internship === filterInternship.value);
+  if (filterOffcampus.value) filtered = filtered.filter(s => s.offcampus === filterOffcampus.value);
+
+  renderStudents(filtered);
+}
 
 [searchBar, filterClub, filterHousing, filterYear, filterInternship, filterOffcampus].forEach(input => {
   input.addEventListener("input", applyFilters);

@@ -158,6 +158,25 @@ form button:hover,
   color: white;
 }
 
+/* === Profile Picture === */
+.profile-pic {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 15px auto;
+  object-fit: cover;
+}
+
+/* === Browse Title Center === */
+.browse-title {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1.5rem;
+  color: #003057;
+}
+
 /* === No Results Message === */
 #no-results {
   text-align: center;
@@ -184,5 +203,9 @@ form button:hover,
 
   .student-card {
     min-width: 80%;
+  }
+
+  .profile-pic {
+    max-width: 120px;
   }
 }

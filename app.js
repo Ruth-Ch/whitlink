@@ -68,7 +68,6 @@ form.addEventListener("submit", async (e) => {
   const offcampus = document.getElementById("offcampus").value;
   const internship = document.getElementById("internship").value;
   const hometown = document.getElementById("hometown").value;
-  const country = document.getElementById("country")?.value || ""; // add this line
   const profilePicInput = document.getElementById("profilePic");
   const selectedTags = Array.from(document.querySelectorAll(".tag:checked")).map(tag => tag.value);
 
@@ -90,7 +89,6 @@ form.addEventListener("submit", async (e) => {
     offcampus,
     internship,
     hometown,
-    country,
     profilePicURL,
     tags: selectedTags
   };
@@ -147,7 +145,6 @@ function renderStudents(students) {
       <p><strong>Major:</strong> ${student.major}</p>
       <p><strong>Year:</strong> ${student.year}</p>
       <p><strong>Hometown:</strong> ${student.hometown || '—'}</p>
-      <p><strong>Country:</strong> ${student.country || '—'}</p>
       <p><strong>Housing:</strong> ${student.housing}</p>
       <p><strong>Club/Sport:</strong> ${student.club}</p>
       <p><strong>Off-Campus Study:</strong> ${student.offcampus}</p>
